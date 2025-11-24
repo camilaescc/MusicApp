@@ -74,7 +74,7 @@ El propósito de este proyecto es **comprender e implementar la comunicación en
 ## Wireframes 
 
 ### Pantalla de Login
-![Pantalla de login](imagenes/login(2).png)
+![Pantalla de login](imagenes/loginInterface.png)
 
 ### Pantalla de Reproducción de Música
 ![Pantalla de login](imagenes/music.png)
@@ -87,6 +87,6 @@ El propósito de este proyecto es **comprender e implementar la comunicación en
 ---
 
 ## Diagrama de base de datos
-![Pantalla de login](imagenes/dbModel.png)
-
+![Pantalla de login](imagenes/dataBtables.jpg)
+![Pantalla de login](imagenes/DataB.jpg)
 ---
