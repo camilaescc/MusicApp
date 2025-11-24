@@ -52,7 +52,7 @@ Desarrollar una aplicación sencilla que permita:
 
 * **Base de datos:** MySQL / PostgreSQL / MongoDB
 * **Backend:** Node.js / Python 
-* **Frontend:** Flask / HTML-CSS-JS 
+* **Frontend:** HTML-CSS-JS 
 
 
 ## Organización del trabajo
