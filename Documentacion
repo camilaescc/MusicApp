@@ -1,0 +1,92 @@
+
+# Music App
+
+## Integrantes del equipo
+- **Camila Escobedo** – Frontend y manejo del proyecto  
+- **Rodrigo Legarreta** – Backend y base de datos  
+
+---
+
+## Descripción del proyecto
+**Music App** es una aplicación web sencilla que permite a los usuarios iniciar sesión con su nombre de usuario y contraseña, escoger su plan de subscripcion ya sea individual o premium, agregar canciones y reproducirlas, y crear playlists. De igual manera cada cancion podrá pausarse, regresarse o adelantarse. 
+El objetivo principal es integrar un **frontend desarrollado en HTML** con un **backend conectado a una base de datos MySQL**, utilizando **XAMPP** como entorno de desarrollo local.
+
+---
+
+## ⚙️ Tecnologías utilizadas
+
+| Área | Tecnología / Herramienta | Descripción |
+|------|---------------------------|--------------|
+| Frontend | **HTML5, CSS3** | Interfaz visual y estructura de las pantallas |
+| Backend | **PHP** | Manejo del login, conexión con la base de datos y lógica del servidor |
+| Base de datos | **MySQL** | Almacenamiento de usuarios y publicaciones |
+| Entorno local | **XAMPP** | Control de Apache y MySQL para correr el proyecto localmente |
+
+---
+
+## Estructura del sistema
+
+### 1. Pantalla de Login
+El usuario debe ingresar su **nombre de usuario** y **contraseña**.  
+El usuario escoge su plan de subscripción.
+Si las credenciales son válidas, se redirige al área principal de reproducción de canciones.
+
+### 2. Pantalla de Reproducción
+Una vez dentro, el usuario puede:
+- Agregar canciones nuevas
+- Crear playlists
+- Reproducir canciones existentes
+- Pausar, adelantar o retroducer las canciones en su playlist
+- Visualizar las canciones y las playlist
+- Visualizar su plan de subscripcion
+
+---
+
+## Roles y responsabilidades
+
+- **Camila Escobedo**  
+  - Desarrollo del **Frontend (HTML, diseño visual y wireframes)**  
+  - Coordinación general del proyecto y comunicación entre integrantes  
+  - Integración básica con el backend para pruebas  
+  - Apoyo en la **organización de tareas y documentación** 
+
+- **Rodrigo Legarreta**  
+  - Desarrollo del **Backend (PHP)**  
+  - Configuración y conexión con **MySQL**  
+  - Lógica del **login y manejo de publicaciones**  
+  - Pruebas de funcionamiento e integración  
+
+---
+
+## Requisitos para ejecutar el proyecto
+
+1. Instalar **XAMPP** y activar los módulos **Apache** y **MySQL**.  
+2. Colocar la carpeta del proyecto dentro del directorio:
+3. Importar el archivo SQL del proyecto en **phpMyAdmin** para crear la base de datos.  
+4. Acceder desde el navegador a:
+---
+
+## Objetivo del proyecto
+El propósito de este proyecto es **comprender e implementar la comunicación entre el frontend, el backend y la base de datos**, logrando una aplicación funcional con inicio de sesión y manejo básico de reproductor de canciones.
+
+---
+
+## Wireframes 
+
+### Pantalla de Login
+![Pantalla de login](imagenes/login.png)
+
+### Pantalla de Reproducción de Música
+![Pantalla de login](imagenes/music.png)
+
+---
+
+### Endpoints
+{En desarrollo}
+
+---
+
+## Diagrama de base de datos
+![Pantalla de login](imagenes/dbModel.png)
+
+---
