@@ -1,200 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Music App</title>
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f2f5ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .screen {
-            display: none;
-            width: 360px;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-        }
-
-        .active {
-            display: block;
-        }
-
-        h1 {
-            text-align: center;
-            color: #4a5bd7;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 12px;
-            background: #e8ecf2;
-            font-size: 15px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background: #4a5bd7;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #6c7ff5;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-
-        .controls button {
-            width: 28%;
-        }
-
-        .playlist-box {
-            background: #eef1ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Mini Spotify</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="screen active">
-        <h1>Music App 🎶</h1>
-
-        <input type="text" id="username" placeholder="Usuario" />
-        <input type="password" id="password" placeholder="Contraseña" />
-
-        <select id="plan">
-            <option value="Individual">Plan Individual</option>
-            <option value="Premium">Plan Premium</option>
-        </select>
-
-        <button onclick="login()">Entrar</button>
+<header class="topbar">
+    <div class="logo">🎵 Mini Spotify</div>
+    <div class="user-info">
+        <span id="userNameLabel"></span>
+        <span id="premiumBadge" class="badge" style="display:none;">PREMIUM</span>
     </div>
+</header>
 
-    <!-- MUSIC PLAYER SCREEN -->
-    <div id="musicScreen" class="screen">
-        <h1>Reproductor 🎵</h1>
-        <h3 id="planDisplay" style="text-align:center; color:#4a5bd7;"></h3>
+<!-- ========== LOGIN ========== -->
+<div class="container" id="loginBox">
+    <h2>Iniciar Sesión</h2>
+    <input id="emailLogin" type="email" placeholder="Email">
+    <input id="passwordLogin" type="password" placeholder="Contraseña">
+    <button onclick="login()">Entrar</button>
 
-        <div style="text-align:center; margin-top:10px;">
-            <strong>Canción actual:</strong>
-            <p id="songTitle">Ninguna reproduciéndose</p>
+    <p>¿No tienes cuenta? 
+        <a onclick="showRegister()" class="link">Regístrate aquí</a>
+    </p>
+</div>
+
+<!-- ========== REGISTER ========== -->
+<div class="container" id="registerBox" style="display:none;">
+    <h2>Registrarse</h2>
+    <input id="usernameReg" type="text" placeholder="Usuario">
+    <input id="emailReg" type="email" placeholder="Email">
+    <input id="passwordReg" type="password" placeholder="Contraseña">
+    <button onclick="registerUser()">Registrar</button>
+
+    <p><a onclick="showLogin()" class="link">Volver al login</a></p>
+</div>
+
+<!-- ===================================================== -->
+<!-- ===============   APP PRINCIPAL ====================== -->
+<!-- ===================================================== -->
+
+<div id="appWrapper" class="appWrapper" style="display:none;">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <button class="menu-item" onclick="showView('playlistsView')">📂 Playlists</button>
+        <button class="menu-item" onclick="showView('songsView')">🎵 Canciones</button>
+        <button class="menu-item" onclick="showView('searchView')">🔍 Buscar</button>
+        <button class="menu-item" onclick="showView('uploadView')">⬆️ Subir canción</button>
+        <button class="menu-item" onclick="showView('artistsView')">🎤 Artistas</button>
+    </aside>
+
+    <!-- ===== CONTENIDO PRINCIPAL ===== -->
+    <main class="mainContent">
+
+        <div class="main-header">
+            <h2>Tu música 🎧</h2>
+            <div class="actions">
+                <button class="secondary" onclick="checkPremium()">Ver estado Premium</button>
+                <button class="primary" onclick="activatePremium()">Activar Premium (30 días)</button>
+            </div>
         </div>
 
-        <div class="controls">
-            <button onclick="prevSong()">⏮️</button>
-            <button onclick="playPause()">⏯️</button>
-            <button onclick="nextSong()">⏭️</button>
-        </div>
+        <!-- ========== VISTA 1 - CANCIONES ======== -->
+        <section id="songsView" class="view">
+            <h3>Todas las canciones</h3>
+            <div id="songList" class="song-list"></div>
+        </section>
 
-        <div class="playlist-box">
-            <strong>Playlist:</strong>
-            <ul id="playlist"></ul>
+        <!-- ========== VISTA 2 - BUSCADOR ======== -->
+        <section id="searchView" class="view" style="display:none;">
+            <h3>Buscar canciones</h3>
+            <input id="searchInput" placeholder="Buscar por canción, artista o álbum..." onkeyup="searchSongs()">
+            <div id="results" class="song-list"></div>
+        </section>
 
-            <input type="text" id="newSong" placeholder="Nueva canción…" />
-            <button onclick="addSong()">Agregar canción</button>
-        </div>
+        <!-- ========== VISTA 3 - SUBIR CANCIÓN ======== -->
+        <section id="uploadView" class="view" style="display:none;">
+            <h3>Subir nueva canción</h3>
+            <div class="uploadBox">
+                <input id="songTitle" placeholder="Título">
+                <input id="songArtist" type="number" placeholder="ID del artista">
+                <input id="songAlbum" type="number" placeholder="ID del álbum (opcional)">
+                <input id="songDuration" type="text" placeholder="Duración (ej: 4:05)">
+                <input id="songFile" type="file" accept="audio/mp3">
+                <button onclick="uploadSong()">Subir canción</button>
+            </div>
+        </section>
+
+        <!-- ========== VISTA 4 - ARTISTAS ======== -->
+        <section id="artistsView" class="view" style="display:none;">
+            <h3>Artistas</h3>
+
+            <div class="artist-form">
+                <input id="artistName" type="text" placeholder="Nombre del artista">
+                <input id="artistDesc" type="text" placeholder="Descripción (opcional)">
+                <button onclick="createArtist()">Guardar artista</button>
+            </div>
+
+            <div id="artistList"></div>
+        </section>
+
+        <!-- ========== VISTA 5 - PERFIL DE ARTISTA ======== -->
+        <section id="artistProfileView" class="view" style="display:none;">
+            <button class="secondary" onclick="showView('artistsView')">⬅ Volver</button>
+
+            <div id="artistProfile" style="margin-top:10px;"></div>
+
+            <h3 style="margin-top:16px;">Canciones</h3>
+            <div id="artistSongs" class="song-list"></div>
+        </section>
+
+        <!-- ========= VISTA 5 - PLAYLISTS ========= -->
+        <section id="playlistsView" class="view" style="display:none;">
+
+            <h3>Mis Playlists</h3>
+
+        <!-- Crear nueva playlist -->
+            <div class="artist-form" style="margin-bottom:15px;">
+            <input id="playlistName" type="text" placeholder="Nombre de la playlist">
+            <button onclick="createPlaylist()">Crear playlist</button>
+            </div>
+
+        <!-- Lista de playlists -->
+            <div id="playlistList" class="song-list"></div>
+
+</section>
+
+    </main>
+</div>
+
+<div id="playlistModal" class="modal" style="display:none;">
+    <div class="modal-box">
+        <h3>Agregar a playlist</h3>
+        <div id="playlistOptions"></div>
+        <button class="secondary" onclick="closePlaylistModal()">Cerrar</button>
     </div>
+</div>
 
-    <script>
-        let playlist = [];
-        let currentSongIndex = -1;
-        let isPlaying = false;
+<section id="playlistSongsView" class="view" style="display:none;">
+    <button class="secondary" onclick="showView('playlistsView')">⬅ Volver</button>
+    <h3 id="playlistTitle"></h3>
+    <div id="playlistSongs" class="song-list"></div>
+</section>
 
-        function login() {
-            const user = document.getElementById("username").value;
-            const pass = document.getElementById("password").value;
-            const plan = document.getElementById("plan").value;
 
-            if (user === "" || pass === "") {
-                alert("Ingresa usuario y contraseña.");
-                return;
-            }
+<!-- ========== PLAYER ========= -->
+<footer class="player-bar" id="playerBar" style="display:none;">
+    <div class="now-playing">
+        <span id="nowTitle">Nada sonando</span>
+        <span id="nowArtist" class="muted"></span>
+    </div>
+    <audio id="player" controls></audio>
+</footer>
 
-            document.getElementById("planDisplay").textContent = "Plan: " + plan;
-
-            document.getElementById("loginScreen").classList.remove("active");
-            document.getElementById("musicScreen").classList.add("active");
-        }
-
-        function addSong() {
-            const song = document.getElementById("newSong").value;
-
-            if (song === "") return;
-
-            playlist.push(song);
-            updatePlaylist();
-            document.getElementById("newSong").value = "";
-        }
-
-        function updatePlaylist() {
-            const ul = document.getElementById("playlist");
-            ul.innerHTML = "";
-
-            playlist.forEach((song, index) => {
-                const li = document.createElement("li");
-                li.textContent = song;
-                ul.appendChild(li);
-            });
-        }
-
-        function playPause() {
-            if (playlist.length === 0) {
-                alert("La playlist está vacía.");
-                return;
-            }
-
-            if (currentSongIndex === -1) {
-                currentSongIndex = 0;
-                document.getElementById("songTitle").textContent = playlist[currentSongIndex];
-            }
-
-            isPlaying = !isPlaying;
-            document.getElementById("songTitle").textContent =
-                (isPlaying ? "▶️ " : "⏸️ ") + playlist[currentSongIndex];
-        }
-
-        function nextSong() {
-            if (playlist.length === 0) return;
-
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            document.getElementById("songTitle").textContent = "▶️ " + playlist[currentSongIndex];
-            isPlaying = true;
-        }
-
-        function prevSong() {
-            if (playlist.length === 0) return;
-
-            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-            document.getElementById("songTitle").textContent = "▶️ " + playlist[currentSongIndex];
-            isPlaying = true;
-        }
-    </script>
-
+<script src="app.js"></script>
 </body>
 </html>
